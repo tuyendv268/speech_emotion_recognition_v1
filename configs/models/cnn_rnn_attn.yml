@@ -1,0 +1,56 @@
+define: &hidden_dim 256
+define: &n_mels 80
+
+device: "cuda"
+drop_rate: 0.3
+num_labels: 8
+feature: "mel"
+hidden_dim: *hidden_dim
+attention:
+  self:
+    drop_rate: 0.3
+    hidden_dim: *hidden_dim
+    num_head: 4
+    
+  additive:
+    query_dim: *hidden_dim
+    hidden_dim: *hidden_dim
+
+rnn:
+  rnn: "gru"
+  drop_rate: 0.3
+  bidirectional: True
+  hidden_dim: *hidden_dim
+  input_dim: *hidden_dim
+
+cnn:
+  drop_rate: 0.3
+  num_pooling: 2
+  padding: "same"
+  pooling:
+    kernels: 
+      - 2
+      - 2
+      - 2
+    strides:
+      - 2
+      - 2
+      - 2
+  conv:
+    left_paddings:
+      - 4
+      - 2
+      - 2
+    channels: 
+      - *n_mels
+      - 64
+      - 128
+      - *hidden_dim
+    kernels: 
+      - 5
+      - 3
+      - 3
+    strides:
+      - 1
+      - 1
+      - 1

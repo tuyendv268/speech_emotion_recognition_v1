@@ -250,6 +250,7 @@ class Trainer():
                 )
         with open(f'{self.config["model_config"]}.txt', "w", encoding="utf-8") as f:
             for fold in accs:
+                fold = list(map(str, fold))
                 f.write("\t".join(fold) + "\n")
                     
     def save_checkpoint(self, path, model, optimizer, epoch, loss):
