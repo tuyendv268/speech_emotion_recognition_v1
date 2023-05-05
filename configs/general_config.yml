@@ -8,9 +8,9 @@ num_worker: 2
 batch_size: 64
 sample_rate: *sample_rate
 evaluate_per_epoch: 1
-# model_config: configs/models/cnn_transformer.yml
+model_config: configs/models/cnn_transformer.yml
 # model_config: configs/models/light_ser_cnn.yml
-model_config: configs/models/tim_net.yml
+# model_config: configs/models/tim_net.yml
 data_config: configs/datas/ravdess.yml
 # data_config: configs/datas/tth_vlsp.yml
 log_dir: logs
@@ -19,10 +19,10 @@ warm_up: None
 
 learning_rate: 0.001
 weight_decay: 1e-5
-beta1: 0.93
-beta2: 0.98
-# beta1: 0.9
-# beta2: 0.999
+# beta1: 0.93
+# beta2: 0.98
+beta1: 0.9
+beta2: 0.999
 
 k_fold: 10
 valid_size: 0.1
