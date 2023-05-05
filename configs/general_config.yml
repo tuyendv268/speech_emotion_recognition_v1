@@ -2,7 +2,7 @@ define: &sample_rate 22050
 
 mode: train
 seed: 42
-n_epoch: 400
+n_epoch: 300
 device: cuda
 num_worker: 2
 batch_size: 64

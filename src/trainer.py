@@ -127,8 +127,6 @@ class Trainer():
         model_state_dict = state_dict["model_state_dict"]
         optim_state_dict = state_dict["optim_state_dict"]
         
-        # self.model.load_state_dict(model_state_dict)
-        # optimizer.load_state_dict(optim_state_dict)
         print(f'load checkpoint from {path}')        
         
         return {
@@ -152,12 +150,6 @@ class Trainer():
         
         for _fold, (train_indices, valid_indices) in enumerate(kfold_tqdm):
             train_inputs, train_labels, valid_inputs, valid_labels = self.inputs[train_indices], self.labels[train_indices], self.inputs[valid_indices], self.labels[valid_indices]
-
-            # train_inputs, valid_inputs, train_labels, valid_labels = train_test_split(
-            #     self.inputs, self.labels, 
-            #     test_size=float(self.config["valid_size"]), 
-            #     shuffle=True, random_state=int(self.config["seed"])
-            # )
 
             train_dl = self.prepare_dataloader(train_inputs, train_labels)
             valid_dl = self.prepare_dataloader(valid_inputs, valid_labels, mode="test")
