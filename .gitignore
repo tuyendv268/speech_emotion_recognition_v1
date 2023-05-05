@@ -1,0 +1,6 @@
+datas/wavs
+/checkpoints/
+/logs/
+RAVDE.npy
+*/__pycache__/
+*/*/__pycache__/

@@ -1,0 +1,17 @@
+sample_rate: 48000
+augment: No
+wavs_path: /home/tuyendv/Desktop/speech_emotion_recognition/ess_dataset/tth/wavs
+label_path: /home/tuyendv/Desktop/speech_emotion_recognition/datas/tth_label_wav_less_than_1s_sample.txt
+feature: npy
+
+npy_path: RAVDE.npy
+
+label:
+  neutral: 0
+  angry: 1
+  happy: 2
+  sad: 3
+  calm: 4
+  fearful: 5
+  disgust: 6
+  surprised: 7

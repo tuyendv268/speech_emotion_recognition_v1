@@ -1,0 +1,50 @@
+define: &sample_rate 22050
+
+mode: train
+seed: 42
+n_epoch: 400
+device: cuda
+num_worker: 2
+batch_size: 64
+sample_rate: *sample_rate
+evaluate_per_epoch: 1
+# model_config: configs/models/cnn_transformer.yml
+# model_config: configs/models/light_ser_cnn.yml
+model_config: configs/models/tim_net.yml
+data_config: configs/datas/ravdess.yml
+# data_config: configs/datas/tth_vlsp.yml
+log_dir: logs
+checkpoint_dir: checkpoints
+warm_up: None
+
+learning_rate: 0.001
+weight_decay: 1e-5
+beta1: 0.93
+beta2: 0.98
+# beta1: 0.9
+# beta2: 0.999
+
+k_fold: 10
+valid_size: 0.1
+test_size: 0.1
+
+augment: spec_augment
+oversampling: False
+max_signal_duration: 4
+
+mfcc:
+  sample_rate: *sample_rate
+  hop_length: 256
+  win_length: 1024
+  n_mfcc: 39
+  n_mels: 128
+  fmax: 8000
+  fmin: 40
+
+mel:
+  sample_rate: *sample_rate
+  hop_length: 256
+  win_length: 1024
+  n_mels: 128
+  fmax: 8000
+  fmin: 40

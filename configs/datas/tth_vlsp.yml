@@ -1,0 +1,13 @@
+sample_rate: 48000
+augment: No
+wavs_path: /kaggle/input/dataset/ess_dataset/tth/wavs
+# wavs_path: /home/tuyendv/Desktop/speech_emotion_recognition/ess_dataset/tth/wavs
+label_path: datas/tth_label_balanced_v2.txt
+# label_path: datas/tth_label_wav_less_than_1s_sample.txt
+feature: mfcc
+
+label:
+  neutral: 0
+  angry: 1
+  happy: 2
+  sad: 3

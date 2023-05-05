@@ -1,0 +1,4 @@
+000000|abc|neutral
+000003|abc|angry
+000005|abc|happy
+000006|abc|sad
