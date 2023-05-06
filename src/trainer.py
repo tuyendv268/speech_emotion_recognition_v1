@@ -135,7 +135,7 @@ class Trainer():
         }
     def train(self):
         print("########## Start Training #########")
-        accs = []
+        results = []
         train_inputs, test_inputs, train_labels, test_labels = train_test_split(
                 self.inputs, self.labels, 
                 test_size=float(self.config["test_size"]), 
@@ -200,16 +200,16 @@ class Trainer():
                         
                         # kfold_tqdm.write(f'# best accuracy at {epoch} = {best_acc}')
                         
-                    if best_wa < valid_cls_result["weighted avg"]["f1-score"]:
+                    if best_wa < valid_cls_result["weighted avg"]["recall"]:
                         best_wa = valid_cls_result["weighted avg"]["f1-score"]
-                        path = f'{self.config["checkpoint_dir"]}/best_wa_checkpoint.pt'
+                        path = f'{self.config["checkpoint_dir"]}/best_war_checkpoint.pt'
                         self.save_checkpoint(path, model=model, optimizer=optimizer, epoch=epoch, loss=train_loss)
                         
                         # kfold_tqdm.write(f'# best weighted avg f1-score at {epoch} = {best_wa}')
                         
                     if best_uwa < valid_cls_result["macro avg"]["f1-score"]:
                         best_uwa = valid_cls_result["macro avg"]["f1-score"]
-                        path = f'{self.config["checkpoint_dir"]}/best_uwa_checkpoint.pt'
+                        path = f'{self.config["checkpoint_dir"]}/best_uwar_checkpoint.pt'
                         self.save_checkpoint(path, model=model, optimizer=optimizer, epoch=epoch, loss=train_loss)
                         
                         # kfold_tqdm.write(f'# best macro avg f1-score at {epoch} = {best_uwa}')
@@ -228,16 +228,17 @@ class Trainer():
             path = f'{self.config["checkpoint_dir"]}/best_acc_checkpoint.pt'
             test_results = self.test(checkpoint=path,test_dl=test_dl)
             os.remove(path)
-            accs.append([_fold, test_results["acc"]])
             
-            path = f'{self.config["checkpoint_dir"]}/best_wa_checkpoint.pt'
+            path = f'{self.config["checkpoint_dir"]}/best_war_checkpoint.pt'
             test_results = self.test(checkpoint=path,test_dl=test_dl)
             os.remove(path)
             
-            path = f'{self.config["checkpoint_dir"]}/best_uwa_checkpoint.pt'
+            path = f'{self.config["checkpoint_dir"]}/best_uwar_checkpoint.pt'
             test_results = self.test(checkpoint=path,test_dl=test_dl)
             os.remove(path)
+            results.append([_fold, test_results["acc"], test_results["war"], test_results["uwar"]])
             
+            print(results[-1])
             print(
                 {
                     "macro_avg":best_uwa,
@@ -249,7 +250,7 @@ class Trainer():
                     }
                 )
         with open(f'{self.config["model_config"]}.txt', "w", encoding="utf-8") as f:
-            for fold in accs:
+            for fold in results:
                 fold = list(map(str, fold))
                 f.write("\t".join(fold) + "\n")
                     
@@ -315,6 +316,6 @@ class Trainer():
                 
         return {
             "acc":test_cls_result["accuracy"],
-            "w_acc":test_cls_result["weighted avg"]["f1-score"],
-            "uw_acc":test_cls_result["macro avg"]["f1-score"],
+            "war":test_cls_result["weighted avg"]["recall"],
+            "uwar":test_cls_result["macro avg"]["recall"],
         }
