@@ -225,8 +225,8 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         
-        channels = [39, 256, 39]
-        kernels = [3, 3, 3]
+        channels = [39, 39]
+        kernels = [3, 3]
         convs = []
         
         for i, (in_channels, out_channels) in enumerate(zip(channels[:-1], channels[1:])):
