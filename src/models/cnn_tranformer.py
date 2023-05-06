@@ -260,7 +260,7 @@ class CNN_Transformer(nn.Module):
         super(CNN_Transformer, self).__init__()
         # d_model, ffn_hidden, n_head, n_layers, drop_prob
         self.cnn = CNN()
-        self.weighted_layers = nn.Parameter(torch.randn(1, 8))
+        self.weighted_layers = nn.Parameter(torch.randn(1, 6))
         self.transformers = Transformer_Encoder(
             d_model=39, 
             ffn_hidden=256, 
