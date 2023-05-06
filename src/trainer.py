@@ -166,11 +166,9 @@ class Trainer():
                 
                 for i, batch in enumerate(train_dl):
                     optimizer.zero_grad()
-
                     inputs, labels = batch
                     inputs = inputs.to(self.device)
                     labels = labels.to(self.device)
-                    
                     preds = model(inputs=inputs, lengths=None)
                     
                     loss = self.cre_loss(preds, labels)
@@ -250,10 +248,14 @@ class Trainer():
                     }
                 )
         with open(f'{self.config["model_config"]}.txt', "w", encoding="utf-8") as f:
+            np_results = np.array(results).mean(axis=0).tolist()
+            results.append(np_results)
+            
+            print(results)
             for fold in results:
                 fold = list(map(str, fold))
                 f.write("\t".join(fold) + "\n")
-                    
+                
     def save_checkpoint(self, path, model, optimizer, epoch, loss):
         state_dict = {
             "model_state_dict":model.state_dict(),
