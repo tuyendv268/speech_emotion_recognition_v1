@@ -21,7 +21,7 @@ def padding_audio(wav, max_signal_length):
     return wav
 
 def spec_augment(spec: np.ndarray, num_mask=2, 
-                 freq_masking_max_percentage=0.1, time_masking_max_percentage=0.2):
+                 freq_masking_max_percentage=0.1, time_masking_max_percentage=0.1):
     spec = spec.copy()
     for i in range(num_mask):
         all_frames_num, all_freqs_num = spec.shape

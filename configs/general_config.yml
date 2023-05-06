@@ -18,7 +18,7 @@ checkpoint_dir: checkpoints
 warm_up: None
 
 learning_rate: 0.001
-weight_decay: 1e-5
+weight_decay: 1e-6
 # beta1: 0.93
 # beta2: 0.98
 beta1: 0.9
