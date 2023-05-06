@@ -264,8 +264,8 @@ class CNN_Transformer(nn.Module):
         self.transformers = Transformer_Encoder(
             d_model=39, 
             ffn_hidden=256, 
-            n_head=4, 
-            n_layers=8, 
+            n_head=6, 
+            n_layers=4, 
             drop_prob=0.1)
         self.cls_head = nn.Linear(39, 8)
         
