@@ -269,7 +269,6 @@ class CNN_Transformer(nn.Module):
             drop_prob=0.1)
         self.cls_head = nn.Linear(39, 8)
         
-        
     def forward(self, inputs, lengths):
         inputs = self.cnn(inputs)
         inputs = inputs.transpose(1, 2)
