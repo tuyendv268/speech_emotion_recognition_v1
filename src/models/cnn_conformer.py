@@ -43,7 +43,7 @@ class CNN(nn.Module):
             convs += conv
         
         self.convs = nn.ModuleList(convs)
-        self.dropout = SpatialDropout1D(0.3)
+        self.dropout = SpatialDropout1D(0.2)
 
     
     def forward(self, inputs):
