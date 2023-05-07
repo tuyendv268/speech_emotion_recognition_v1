@@ -9,8 +9,8 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         
-        channels = [39, 128]
-        kernels = [3, 3]
+        channels = [39, 128, 256]
+        kernels = [3, 3, 3]
         convs = []
         
         for i, (in_channels, out_channels) in enumerate(zip(channels[:-1], channels[1:])):
@@ -97,7 +97,7 @@ class CNN_Conformer(nn.Module):
             conv_kernel_size=7,
             half_step_residual=True
         )
-        self.cls_head = nn.Linear(128, 8)
+        self.cls_head = nn.Linear(256, 8)
         self.weighted_layers = nn.Parameter(torch.randn(1, num_layers))
 
     def forward(self, inputs, lengths):
