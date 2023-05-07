@@ -10,7 +10,7 @@ class CNN(nn.Module):
         super(CNN, self).__init__()
         
         channels = [39, 128]
-        kernels = [1, 1]
+        kernels = [3, 3]
         convs = []
         
         for i, (in_channels, out_channels) in enumerate(zip(channels[:-1], channels[1:])):
@@ -50,7 +50,7 @@ class ConformerEncoder(nn.Module):
             feed_forward_dropout_p: float = 0.1,
             attention_dropout_p: float = 0.1,
             conv_dropout_p: float = 0.1,
-            conv_kernel_size: int = 31,
+            conv_kernel_size: int = 7,
             half_step_residual: bool = True,
     ):
         super(ConformerEncoder, self).__init__()
@@ -88,13 +88,13 @@ class CNN_Conformer(nn.Module):
         self.conformer = ConformerEncoder(
             encoder_dim=128,
             num_layers=num_layers,
-            num_attention_heads=4,
+            num_attention_heads=8,
             feed_forward_expansion_factor=4,
             conv_expansion_factor=2,
             feed_forward_dropout_p=0.2,
             attention_dropout_p=0.2,
             conv_dropout_p=0.2,
-            conv_kernel_size=15,
+            conv_kernel_size=7,
             half_step_residual=True
         )
         self.cls_head = nn.Linear(128, 8)
