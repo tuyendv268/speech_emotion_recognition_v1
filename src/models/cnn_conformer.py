@@ -10,7 +10,7 @@ class CNN(nn.Module):
         super(CNN, self).__init__()
         
         channels = [39, 128]
-        kernels = [3, 3]
+        kernels = [1, 1]
         convs = []
         
         for i, (in_channels, out_channels) in enumerate(zip(channels[:-1], channels[1:])):
