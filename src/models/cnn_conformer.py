@@ -42,14 +42,14 @@ class CNN(nn.Module):
 class ConformerEncoder(nn.Module):
     def __init__(
             self,
-            encoder_dim: int = 128,
+            encoder_dim: int = 256,
             num_layers: int = 4,
-            num_attention_heads: int = 8,
+            num_attention_heads: int = 4,
             feed_forward_expansion_factor: int = 4,
             conv_expansion_factor: int = 2,
-            feed_forward_dropout_p: float = 0.1,
-            attention_dropout_p: float = 0.1,
-            conv_dropout_p: float = 0.1,
+            feed_forward_dropout_p: float = 0.2,
+            attention_dropout_p: float = 0.2,
+            conv_dropout_p: float = 0.2,
             conv_kernel_size: int = 7,
             half_step_residual: bool = True,
     ):
@@ -84,11 +84,11 @@ class CNN_Conformer(nn.Module):
     def __init__(self, config=None, num_layers=4) -> None:
         super(CNN_Conformer, self).__init__()
         self.cnn = CNN()
-        self.weighted_layers = nn.Parameter(torch.randn(1, 4))
+        self.weighted_layers = nn.Parameter(torch.randn(1, num_layers))
         self.conformer = ConformerEncoder(
-            encoder_dim=128,
+            encoder_dim=256,
             num_layers=num_layers,
-            num_attention_heads=8,
+            num_attention_heads=4,
             feed_forward_expansion_factor=4,
             conv_expansion_factor=2,
             feed_forward_dropout_p=0.2,
