@@ -4,3 +4,4 @@ datas/wavs
 RAVDE.npy
 */__pycache__/
 */*/__pycache__/
+*/*/*/__pycache__/

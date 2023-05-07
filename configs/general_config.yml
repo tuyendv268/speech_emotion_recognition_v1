@@ -8,11 +8,15 @@ num_worker: 2
 batch_size: 64
 sample_rate: *sample_rate
 evaluate_per_epoch: 1
+
 # model_config: configs/models/cnn_transformer.yml
 # model_config: configs/models/light_ser_cnn.yml
-model_config: configs/models/tim_net.yml
+# model_config: configs/models/tim_net.yml
+model_config: configs/models/cnn_conformer.yml
+
 data_config: configs/datas/ravdess.yml
 # data_config: configs/datas/tth_vlsp.yml
+
 log_dir: logs
 checkpoint_dir: checkpoints
 warm_up: None

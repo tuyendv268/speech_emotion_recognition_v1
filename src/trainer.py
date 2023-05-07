@@ -22,6 +22,7 @@ from src.models.tim_net import TimNet
 from src.dataset import SER_Dataset
 from src.models.light_ser_cnn import Light_SER
 from src.models.cnn_tranformer import CNN_Transformer
+from src.models.cnn_conformer import CNN_Conformer
 
 class Trainer():
     def __init__(self, config) -> None:
@@ -96,6 +97,8 @@ class Trainer():
             model = TimNet(n_label=len(self.data_config["label"].keys())).to(self.device)
         elif "cnn_transformer" in self.config["model_config"]:
             model = CNN_Transformer().to(self.device)
+        elif "cnn_conformer" in self.config["model_config"]:
+            model = CNN_Conformer().to(self.device)
         
         model.apply(self.init_weight)
         return model
