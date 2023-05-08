@@ -28,12 +28,12 @@ class CNN(nn.Module):
         
         for i, (in_channels, out_channels) in enumerate(zip(channels[:-1], channels[1:])):
             conv = [
-                weight_norm(nn.Conv1d(
+                nn.Conv1d(
                     in_channels=in_channels, 
                     out_channels=out_channels, 
                     kernel_size=kernels[i],
                     padding="same",
-                    stride=1)),
+                    stride=1),
                 nn.BatchNorm1d(num_features=out_channels),
                 nn.ReLU(),
                 nn.MaxPool1d(
@@ -63,7 +63,7 @@ class ConformerEncoder(nn.Module):
             feed_forward_dropout_p: float = 0.2,
             attention_dropout_p: float = 0.2,
             conv_dropout_p: float = 0.2,
-            conv_kernel_size: int = 7,
+            conv_kernel_size: int = 15,
             half_step_residual: bool = True,
     ):
         super(ConformerEncoder, self).__init__()
