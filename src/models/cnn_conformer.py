@@ -95,7 +95,7 @@ class ConformerEncoder(nn.Module):
     
 
 class CNN_Conformer(nn.Module):
-    def __init__(self, config=None, num_layers=4) -> None:
+    def __init__(self, config=None, num_layers=8) -> None:
         super(CNN_Conformer, self).__init__()
         self.cnn = CNN()
         self.weighted_layers = nn.Parameter(torch.randn(1, num_layers))
@@ -103,17 +103,25 @@ class CNN_Conformer(nn.Module):
             encoder_dim=128,
             num_layers=num_layers,
             num_attention_heads=4,
-            feed_forward_expansion_factor=4,
+            feed_forward_expansion_factor=2,
             conv_expansion_factor=2,
-            feed_forward_dropout_p=0.2,
-            attention_dropout_p=0.2,
-            conv_dropout_p=0.2,
+            feed_forward_dropout_p=0.3,
+            attention_dropout_p=0.3,
+            conv_dropout_p=0.3,
             conv_kernel_size=15,
             half_step_residual=True
         )
         self.cls_head = nn.Linear(128, 8)
         self.weighted_layers = nn.Parameter(torch.randn(1, num_layers))
         self.dropout = nn.Dropout(0.3)
+        
+        self.apply(self.init_weights)
+
+    def init_weights(self, module):
+        if isinstance(module, nn.Linear):
+            module.weight.data.normal_(mean=0.0, std=1)
+        if isinstance(module, nn.Linear) and module.bias is not None:
+            module.bias.data.zero_()
 
     def forward(self, inputs, lengths):
         inputs = self.cnn(inputs)

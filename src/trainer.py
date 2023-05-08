@@ -28,7 +28,7 @@ class Trainer():
     def __init__(self, config) -> None:
         self.config = config
         self.device = "cpu" if not torch.cuda.is_available() else config["device"]
-        # self.set_random_state(int(config["seed"]))
+        self.set_random_state(int(config["seed"]))
         
         with open(self.config["data_config"]) as f:
             self.data_config = yaml.load(f, Loader=SafeLoader)
@@ -63,8 +63,8 @@ class Trainer():
         print(f'set random_seed = {seed}')
         torch.manual_seed(seed)
         torch.cuda.manual_seed(seed)
-        torch.backends.cudnn.deterministic = True
-        torch.backends.cudnn.benchmark = False
+        # torch.backends.cudnn.deterministic = True
+        # torch.backends.cudnn.benchmark = False
         np.random.seed(seed)
         random.seed(seed)
         

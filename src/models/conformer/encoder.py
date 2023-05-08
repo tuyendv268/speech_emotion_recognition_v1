@@ -12,7 +12,6 @@ from .modules import (
 )
 
 class ConformerBlock(nn.Module):
-
     def __init__(
             self,
             encoder_dim: int = 256,
@@ -64,10 +63,11 @@ class ConformerBlock(nn.Module):
                 module_factor=self.feed_forward_residual_factor,
             ),
             nn.LayerNorm(encoder_dim),
+            nn.Sigmoid()
         )
-
+        
     def forward(self, inputs: Tensor) -> Tensor:
-        return self.sequential(inputs)
+        return self.sequential(inputs) * inputs
     
 if __name__ == "__main__":
     model = ConformerBlock()
