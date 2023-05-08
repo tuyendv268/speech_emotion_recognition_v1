@@ -18,7 +18,7 @@ import torch
 import yaml
 import os
 
-from models.tim_net import TimNet
+from src.models.tim_net import TimNet
 from src.dataset import SER_Dataset
 from src.models.light_ser_cnn import Light_SER
 from src.models.cnn_tranformer import CNN_Transformer
