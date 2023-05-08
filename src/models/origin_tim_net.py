@@ -2,27 +2,6 @@ import torch.nn.functional as F
 from torch import nn
 import torch
 
-class AdditiveAttention(nn.Module):
-    def __init__(self,
-                 query_vector_dim,
-                 candidate_vector_dim):
-        super(AdditiveAttention, self).__init__()
-        self.linear = nn.Linear(candidate_vector_dim, query_vector_dim)
-        self.attention_query_vector = nn.Parameter(
-            torch.empty(query_vector_dim).uniform_(-0.1, 0.1))
-
-    def forward(self, candidate_vector, dropout=None):
-        temp = torch.tanh(self.linear(candidate_vector))
-        candidate_weights = F.softmax(torch.matmul(
-            temp, self.attention_query_vector),
-                                      dim=1)
-        if dropout is not None:
-            candidate_weights = dropout(candidate_weights)
-            
-        target = torch.bmm(candidate_weights.unsqueeze(dim=1),
-                           candidate_vector).squeeze(dim=1)
-        return target
-
 class CasualConv1D(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1):
         super(CasualConv1D, self).__init__()
@@ -87,7 +66,6 @@ class Temporal_Aware_Block(nn.Module):
             ]
         )
         self.conv_2 = nn.ModuleList(self.conv_2)
-        self.additive_attn = AdditiveAttention(39, 39)
         
     def forward(self, inputs):
         outputs = inputs
@@ -96,10 +74,8 @@ class Temporal_Aware_Block(nn.Module):
             
         for layer in self.conv_2:
             outputs = layer(outputs)
-        
-        tmp = inputs * outputs
-        tmp = self.additive_attn(tmp.transpose(1, 2))  
-        return tmp, inputs * outputs
+                    
+        return inputs * outputs
         
         
 class TimNet(nn.Module):
@@ -144,7 +120,7 @@ class TimNet(nn.Module):
         
         self.weight_layer = nn.Parameter(torch.randn(dialations, 1))
         self.cls_head = nn.Linear(n_filters, n_label)
-    
+        
     def forward(self, inputs, lengths=None):
         forward_inputs = inputs
         backward_input = torch.flip(inputs, dims=(-1,))
@@ -158,14 +134,13 @@ class TimNet(nn.Module):
         skip_out_backward = backward_tensor
         
         for forward, backward in zip(self.forward_convs, self.backward_convs):
-            fw_tmp, skip_out_forward = forward(skip_out_forward)
-            bw_tmp, skip_out_backward = backward(skip_out_backward)
+            skip_out_forward = forward(skip_out_forward)
+            skip_out_backward = backward(skip_out_backward)
             
             tmp = skip_out_forward + skip_out_backward
+            tmp = torch.mean(tmp, dim=2)
+            tmp = torch.unsqueeze(tmp, dim=2)
             
-            # tmp = torch.mean(tmp, dim=2)
-            tmp = fw_tmp + bw_tmp
-            tmp = tmp.unsqueeze(2)
             final_skip_connection.append(tmp)
         
         output_2 = final_skip_connection[0]
@@ -181,7 +156,6 @@ class TimNet(nn.Module):
     
 if __name__ == "__main__":
     model = TimNet()
-    print(model)
 
     inputs = torch.randn(32, 39, 51)
     outputs = model(inputs)
